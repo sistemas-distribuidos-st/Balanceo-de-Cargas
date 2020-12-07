@@ -1,17 +1,29 @@
-const express = require("express");
-const readLastLines = require('read-last-lines');
+const express = require("express")
+const readLastLines = require('read-last-lines')
 const cors = require('cors')
-const port = 3000;
-const app = express();
-var bodyParser = require('body-parser');
-const { stdout } = require("process");
+const port = 3000
+const app = express()
+const multer = require('multer')
+var bodyParser = require('body-parser')
+const { stdout } = require("process")
 
 app.use(cors({ origin: true, credentials: true }))
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extend: false }));
-let serverAStatus = false;
-let serverBStatus = false;
-let time = '';
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extend: false }))
+let serverAStatus = false
+let serverBStatus = false
+let time = ''
+let upload = multer({
+    dest: "img/"
+})
+
+app.post("/puttext", upload.single("img"), (req, res) => {
+    console.log(req.file)
+})
+
+sendputext = (filepath) => {
+    restFul > sockets
+}
 
 setInterval(() => {
     readLastLines.read('log.txt', 5).then((lines) => {
@@ -56,25 +68,25 @@ app.get("/", (req, res) => {
 });
 
 app.get("/restart", (req, res) => {
-	const exec = require('child_process').exec;
-	if( serverBStatus == 'FAIL'){
-		var yourscript = exec('sh restart.sh 192.168.1.15', (error, stout, stderr) => {
-				console.log(`${stdout}`);
-				console.log(`${stderr}`);
-				if (error !== null) {
-					console.log(`exec error: ${error}`);
-				}
-			})
-	}
-	if( serverAStatus == 'FAIL'){
-		var yourscript = exec('sh restart.sh 192.168.1.14', (error, stout, stderr) => {
-				console.log(`${stdout}`);
-				console.log(`${stderr}`);
-				if (error !== null) {
-					console.log(`exec error: ${error}`);
-				}
-			})
-	}
+    const exec = require('child_process').exec;
+    if (serverBStatus == 'FAIL') {
+        var yourscript = exec('sh restart.sh 192.168.1.15', (error, stout, stderr) => {
+            console.log(`${stdout}`);
+            console.log(`${stderr}`);
+            if (error !== null) {
+                console.log(`exec error: ${error}`);
+            }
+        })
+    }
+    if (serverAStatus == 'FAIL') {
+        var yourscript = exec('sh restart.sh 192.168.1.14', (error, stout, stderr) => {
+            console.log(`${stdout}`);
+            console.log(`${stderr}`);
+            if (error !== null) {
+                console.log(`exec error: ${error}`);
+            }
+        })
+    }
 });
 
 app.listen(port, () => {
