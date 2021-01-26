@@ -11,30 +11,38 @@
 </head>
 
 <body>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-
     <div class="container">
         <h1 class="display-4 text-center py-5">SERVER IMAGE </h1>
 
-        <div class="card">
-            <div class="card-body">
-                <form method="POST" action="http://localhost:3000/puttext" enctype="multipart/form-data">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">Subir imagen</span>
-                        </div>
-                        <div class="custom-file">
-                            <input name="img" type="file" class="custom-file-input" id="inputGroupFile01">
-                            <label class="custom-file-label" for="inputGroupFile01">Escojame esta!</label>
-                        </div>
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="POST" action="http://localhost:5000/puttext" enctype="multipart/form-data">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Subir imagen</span>
+                                </div>
+                                <div class="custom-file">
+                                    <input name="img" type="file" class="custom-file-input" id="inputGroupFile01" required accept="image/*" onchange="setValue('#fileLabel', this)">
+                                    <label id="fileLabel" class="custom-file-label" for="inputGroupFile01">Selecciona una imagen!</label>
+                                </div>
+                            </div>
+                             <div class="form-group">
+                                <label>Email para notificación</label>
+                                <input name="email" type="email" class="form-control" placeholder="Digita tu correo" required>
+                            </div>
+                            <button id="button-send" class="btn btn-primary btn-block">Colocar texto!</button>
+                        </form>
                     </div>
-                    <button id="button-send" class="btn btn-primary">Clikeame!</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/client.js"></script>
 </body>
 
 </html>
