@@ -1,34 +1,22 @@
 const express = require('express')
-const multer = require('multer')
-const axios = require('axios')
 const fs = require('fs')
-const formData = require('form-data')
-var path = require('path'); 
 const app = express()
-const port = 8100
+const port = 49000
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-
-let upload = multer({
-    dest: "img"
-})
+app.use(express.static(__dirname + '/public'))
 
 app.get('/status', (req, res) => {
     res.send('Server OK')
 })
 
-app.post('/', upload.single("img"), (req, res) => {
-    console.log('Entry image')
-    writeImage(req.file.path,randomPhrase()).then(res2=>{
-        setTimeout(()=>{
-            console.log(res2);
-            res.send({
-                name:req.file.filename,
-                file:base64_encode(req.file.path)
-            });
-            console.log('Image sended')
-        },10)
-    })
+app.post('/receiveImage', (req, res) => {
+    let imgPath = 'public/' + req.body.name;
+    fs.writeFileSync(imgPath, base64_decode(req.body.image64.split(",")[1]));
+
+    writeImage(imgPath, randomPhrase()).then(im=>{
+        res.send({ok: im})
+    });
 })
 
 app.listen(port, () => {
@@ -49,14 +37,18 @@ function writeImage(fileName, imageCaption) {
     }).then(font => {
         loadedImage.print(font, 10, loadedImage.bitmap.height - 20, imageCaption)
             .write(fileName);
-        return 'Frase colocada.';
+        return true;
     }).catch(err => {
         console.error(err);
-        return 'FAIL';
+        return false;
     });
 }
 
 function base64_encode(file) {
     var bitmap = fs.readFileSync(file);
     return new Buffer(bitmap).toString('base64');
+}
+
+function base64_decode(data) {
+    return new Buffer(data, 'base64');
 }

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Image</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Lab</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Imagen</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="text-center mb-2">SERVER IMAGE </h3>
+                        <form method="POST" onsubmit="sendImage(this); return false;" enctype="multipart/form-data" id="form">
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Selecciona una imagen</label>
+                                <input name="img" type="file" class="form-control" id="formFile" required accept="image/*">
+                            </div>
+                             <div class="mb-3">
+                                <label class="form-label">Email para notificación</label>
+                                <input name="email" type="email" class="form-control" placeholder="Digita tu correo" required value="andres.chaparro06@uptc.edu.co">
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button id="button-send" class="btn btn-primary">Colocar texto</button>
+                            </div>
+                        </form>
+                        <img class="w-100" hidden id="image">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="communication.js"></script>
+
+</html>
