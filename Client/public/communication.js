@@ -14,10 +14,12 @@ async function sendImage(form){
     			}
     		})
 		}).then(res=>{
+
             $('#form').attr("hidden", res.ok);
             $('#image').attr("hidden", !res.ok);
-            $('#image').attr("src", res.imgURL);
-
+            
+            if(res.ok)
+                $('#image').attr("src", res.imgURL);
 		});
 	})
 }

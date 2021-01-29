@@ -30,37 +30,10 @@ let upload = multer({
     })
 })
 
-app.post("/puttext", upload.single("img"), (req, res) => {
-    const form = new formData()
-    form.append('img', fs.createReadStream(req.file.path))
-    var server = servers.shift();
-   
-    axios.post(server.ip, form, {
-        headers:{
-             'Content-Type': `multipart/form-data; boundary=${form._boundary}`
-        }
-    }).then(res2=>{
-        console.log('OK: Receiving image');
-        var dd = res2.data;
-        fs.writeFileSync('public/output.png', base64_decode(dd.file))
-        res.redirect('output.png');
-        servers.push(server)
-    }).catch(err =>{
-        console.log('FAIL');
-        servers.splice(server);
-        res.send(err);
-    })
-})
-
-app.post("/uploadImage",upload.single("img"), (req, res) => {
-    console.log(req.body.email);
-    console.log(req.file.path);
-
-    res.send("Cliente")
-});
-
 app.post("/uploadData",(req, res) => {
+    console.log("Connection by client");
     let serverURL = ip + ':' + servers[0].port;
+    console.log("Selected server", serverURL);
 
     axios({
         method: 'post',
@@ -68,9 +41,16 @@ app.post("/uploadData",(req, res) => {
         data: req.body.image
     }).then(imgRes=>{
         let data = imgRes.data;
-        data.imgURL = serverURL + '/' + req.body.image.name;
-        res.send(data)
-    })
+        console.log("Image returns", data.ok);
+        
+        if(data.ok)
+            data.imgURL = serverURL + '/' + req.body.image.name;
+
+         res.send(data)
+        
+    }).catch(err=>{
+        console.log(err);
+    });
 });
 
 
