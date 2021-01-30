@@ -1,34 +1,24 @@
 const express = require("express")
 const readLastLines = require('read-last-lines')
 const cors = require('cors')
-const multer = require('multer')
 const axios = require('axios')
 const { stdout } = require("process")
-const formData = require('form-data')
 const fs = require('fs')
 const app = express()
 const port = 5000
-const ip = 'http://localhost';
-app.use(express.static(__dirname + '/public'))
+const ip = 'http://192.168.0.26'
+var currentPort = 49000
 
+app.use(express.static(__dirname + '/public'))
 app.use(cors({ origin: true, credentials: true }))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 var servers = [
-    {ip:'http://localhost:8100', port:'49000'}
 ];
 
 let serverAStatus = false
 let time = ''
-let upload = multer({
-    storage: multer.diskStorage({
-        destination: './img/',
-        filename: function (req, file, cb) {
-            cb( null, Date.now() + '-' + file.originalname);
-        }
-    })
-})
 
 app.post("/uploadData",(req, res) => {
     console.log("Connection by client");
@@ -60,7 +50,6 @@ app.get("/add_server", (req, res) => {
     //servers.push()
 });
 
-
 var serversInfo = [];
 
 setInterval(() => {
@@ -72,7 +61,7 @@ setInterval(() => {
         let data;
         for (var i = 0; i < lines.length; i++) {
            data = lines[i].split(' ');
-           serversInfo.push({time:data[0], ip:data[1], status:data[2] ==="OK"})
+           serversInfo.push({time:data[0], ip:'', status:data[2] ==="OK"})
         }
     });
 }, 1000);
@@ -109,4 +98,18 @@ function base64_decode(data) {
 
 function base64_encode(file) {
     return new Buffer(fs.readFileSync(file)).toString('base64');
+}
+
+function addServer(){
+    let port = currentPort++;
+     exec(`sh add-server.sh felipe root ${ip} ${port}`, (error, stout, stderr) => {
+        console.log(`${stdout}`);
+        console.log(`${stderr}`);
+        
+        if (error !== null) {
+            console.log(`exec error: ${error}`);
+        }
+    })
+
+    servers.push({ port: port})
 }
