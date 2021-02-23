@@ -5,60 +5,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Server Image</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Lab #2</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">Imagen</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a id="logPage" class="nav-link" aria-current="page">Logs</a>
-                    </li>
-
-                     <li class="nav-item">
-                        <a id="addPage" class="nav-link" aria-current="page">Añadir servidor</a>
-                    </li>
-                </ul>
-            </div>
+  <nav class="bg-gray-800">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+      <div class="relative flex items-center justify-between h-16">
+        <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+          <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Abrir menú</span>
+            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-    </nav>
-
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h3 class="text-center mb-2">SERVER IMAGE </h3>
-                        <form method="POST" onsubmit="sendImage(this); return false;" enctype="multipart/form-data" id="form">
-                            <div class="mb-3">
-                                <label for="formFile" class="form-label">Selecciona una imagen</label>
-                                <input name="img" type="file" class="form-control" id="formFile" required accept="image/*">
-                            </div>
-                             <div class="mb-3">
-                                <label class="form-label">Email para notificación</label>
-                                <input name="email" type="email" class="form-control" placeholder="Digita tu correo" required value="andres.chaparro06@uptc.edu.co">
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button id="button-send" class="btn btn-primary">Colocar texto</button>
-                            </div>
-                        </form>
-                        <img class="w-100" hidden id="image">
-                    </div>
-                </div>
+        <div class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex-shrink-0 flex items-center">
+            <div class="block lg:hidden h-8 w-auto" alt="Workflow">
+              <h1 class="text-white px-3 text-lg font-medium">Lab #2</h1>
             </div>
+            <div class="hidden lg:block h-8 w-auto" alt="Workflow">
+              <h1 class="text-white px-3 text-lg font-medium">Lab #2</h1>
+            </div>
+          </div>
+          <div class="hidden sm:block sm:ml-6">
+            <div class="flex space-x-4">
+              <a href="/" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Imagen</a>
+              <a class="logPage text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logs</a>
+              <a class="addPage text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Añadir servidor</a>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+    <div class="sm:hidden" id="mobile-menu">
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <a href="/" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium">Imagen</a>
+        <a class="logPage text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Logs</a>
+        <a class="addPage text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Añadir servidor</a>
+      </div>
+    </div>
+  </nav>
+  <div>
+    <main>
+      <div class="max-w-lg mx-auto py-6 sm:px-6 lg:px-8">
+        <div class="px-4 py-6 sm:px-0">
+          <div class="">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <h3 class="text-center mb-2">SERVER IMAGE </h3>
+                      <form method="POST" onsubmit="sendImage(this); return false;" enctype="multipart/form-data" id="form">
+                        <div class="mb-3">
+                          <label for="formFile" class="form-label">Selecciona una imagen</label>
+                          <input name="img" type="file" class="mt-1 py-2  px-3 bg-white border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none" id="formFile" required accept="image/*">
+                        </div>
+
+                        <div class="mb-3">
+                          <label class="form-label">Email para notificación</label>
+                          <input name="email" type="email" class="mt-1 py-2  px-3 bg-white border border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md focus:outline-none" placeholder="Digita tu correo" required value="andres.chaparro06@uptc.edu.co">
+                        </div>
+                        <div class="text-right">
+                          <button id="button-send" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">Colocar texto</button>
+                        </div>
+                      </form>
+                      <img class="w-100" hidden id="image">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>

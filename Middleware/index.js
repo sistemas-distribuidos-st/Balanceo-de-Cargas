@@ -124,10 +124,12 @@ function sendImage(server, req){
 }
 
 function addServer(){
+    let user = 'felipe';
+    let pass = 'root';
     let port = currentPort++;
-    console.log(`sh add-server.sh felipe root ${ip} ${port}`);
+    console.log(`sh add-server.sh ${user} ${pass} ${ip} ${port}`);
 
-    exec(`sh add-server.sh felipe root ${ip} ${port}`, (error, stout, stderr) => {
+    exec(`sh add-server.sh ${user} ${pass} ${ip} ${port}`, (error, stout, stderr) => {
         if (error !== null) {
         	if(`${error}`.includes("port is already allocated")){
             	servers.push({port, monitor:{ time:null, status:false }})

@@ -1,7 +1,7 @@
 const ip = 'http://localhost:5000';
 
-$('#logPage').attr("href", ip + '/logs')
-$('#addPage').attr("href", ip + '/add_server')
+$('.logPage').attr("href", ip + '/logs')
+$('.addPage').attr("href", ip + '/add_server')
 
 async function sendImage(form){
     let image = form[0].files[0];
