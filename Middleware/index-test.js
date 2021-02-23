@@ -4,12 +4,16 @@ const readLastLines = require('read-last-lines')
 const cors = require('cors')
 const axios = require('axios')
 const nodemailer = require('nodemailer');
+const { stdout } = require("process")
+const fs = require('fs')
 const app = express()
 const port = 5000
 const ip = '192.168.0.26'
 var currentPort = 49000
 var reqId = 1
+var serversInfo = [];
 var servers = [];
+var activedServers = [];
 var requests=[];
 var responses = [];
 
@@ -46,11 +50,11 @@ app.post("/uploadData",(req, res) => {
 
 app.get("/add_server", (req, res) => {
     addServer();
-    res.send("OK")
+    res.redirect('back')
 });
 
 app.post("/", (req, res) => {
-    res.send(servers)
+    res.send(serversInfo)
 });
 
 app.get("/logs", (req, res) => {
@@ -69,6 +73,9 @@ setInterval(()=>{
             sendImage(server, requests.shift());
         }
     }
+},1000);
+
+setInterval(() => {
 
     servers.forEach(ss=>{
         exec(`sh watch.sh ${ip} ${ss.port}`, (error, stout, stderr) => {
@@ -82,17 +89,21 @@ setInterval(()=>{
         let lines = text.split('\n');
         lines.splice(lines.length - 1)
         let data;
-        let serverIndex;
+        let auxs;
+        serversInfo = [];
 
         for (var i = 0; i < lines.length; i++) {
            data = lines[i].split(' ');
-           serverIndex = servers.findIndex(ss => ss.port == data[1])
+           auxs = serversInfo.find(ss => ss.port == data[1])
 
-           if(serverIndex != undefined){
-               servers[serverIndex].monitor.time = data[0];
-               servers[serverIndex].monitor.status = data[2] == "Server"
-           }
+           if(auxs){
+               auxs.time = data[0];
+               auxs.status = data[2] == "Server"
+           } else
+               serversInfo.push({time:data[0], port:data[1], status:data[2] == "Server"})
         }
+
+        serversInfo.sort((a,b)=> a.port - b.port)
     });
 }, 1000);
 
@@ -130,13 +141,13 @@ function addServer(){
     exec(`sh add-server.sh felipe root ${ip} ${port}`, (error, stout, stderr) => {
         if (error !== null) {
         	if(`${error}`.includes("port is already allocated")){
-            	servers.push({port, monitor:{ time:null, status:false }})
+            	servers.push({port: port})
             	console.log(`Connected to server ${ip}:${port}`);
         	}else{
         		console.log(`No se pudo conectar a ${ip}:${port}`);
         	}
         }else{
-            servers.push({port, monitor:{ time:null, status:false }})
+            servers.push({port: port})
             console.log(`Connected to server ${port}`);
         }
     })
@@ -153,4 +164,12 @@ function sendEmail(to, subject, text){
              console.log('Email enviado: ' + info.response);
         }
     });
+}
+
+function base64_decode(data) {
+    return new Buffer(data, 'base64');
+}
+
+function base64_encode(file) {
+    return new Buffer(fs.readFileSync(file)).toString('base64');
 }
